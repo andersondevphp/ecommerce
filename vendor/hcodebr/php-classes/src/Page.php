@@ -5,6 +5,8 @@ class Page {
 	private $tpl;
 	private $options = []; 
 	private $defaults = [ // Opções, padrão.
+		"header"=>true,
+		"footer"=>true,
 		"data"=>[]
 	];
 	public function __construct($opts = array(), $tpl_dir = "/views/") {
@@ -19,7 +21,7 @@ class Page {
 		$this->tpl = new Tpl;
 		$this->setData($this->options["data"]);
 		// Desenhando o template na tela.
-		$this->tpl->draw("header"); // Nome do arquivo a ser chamado. Header porque repete em todos.
+		if ($this->options["header"] === true) $this->tpl->draw("header"); // Nome do arquivo a ser carregado. Header porque repete em todos.
 	}
 	private function setData($data = array()) {
 		// Percorrendo os dados na chave "data".
@@ -34,6 +36,6 @@ class Page {
 		return $this->tpl->draw($name, $returnHTML); // Desenha o conteúdo.
 	}
 	public function __destruct() {
-		$this->tpl->draw("footer"); // chama o rodapé. Também repete em todas as páginas.
+		if ($this->options["footer"] === true) $this->tpl->draw("footer"); // Carrega o rodapé. Também repete em todas as páginas.
 	}
 }
